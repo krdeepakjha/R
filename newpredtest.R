@@ -1,14 +1,22 @@
-
 #Numeric data as input
 #Newnaiveinput <- as.numeric(Newtrainingdata)
 #Newnaiveinput <- matrix(Newnaiveinput, nrow = 125, ncol = 76)
 #Newnaiveinputgest <- Newnaiveinput
+Newnaiveinputgesture <- rbind(Newnaiveinputgest,gesturenamed)
 
-Newnaiveinputgesture <- as.data.frame(Newnaiveinputgest)
+Newnaiveinputgesture <- as.data.frame(Newnaiveinputgesture)
 Newnaiveinputgesture$gesture <- as.numeric(factor(Newnaiveinputgesture$gesture, 
-                                          levels = c('1','2','3',
-                                                     '4','5'),
-                                          labels = c(1,2,3,4,5)))
+                                                  levels = c('1','2','3',
+                                                             '4','5'),
+                                                  labels = c(1,2,3,4,5)))
+
+
+#Newnaivetest <- as.data.frame(gesturenamed)
+#Newnaivetest$gesture <- as.numeric(factor(Newnaivetest$gesture, 
+ #                                         levels = c('1','2','3','4','5'), 
+  #                                        labels = c(1,2,3,4,5)))
+
+
 
 #namedcol <- naivegesture$gesture
 
@@ -16,13 +24,14 @@ Newnaiveinputgesture$gesture <- as.numeric(factor(Newnaiveinputgesture$gesture,
 #naivetest <- as.data.frame(y)
 #naivetest <- as.numeric(factor(naivetest$gesture, levels = c('1','2','3','4','5'), 
 #labels = c(1,2,3,4,5)))
-%>% 
+
 #Splitting the gesture dataset into training and test sets
 library(caTools)
 set.seed(123)
-Newsplitgesture <- sample.split(Newnaiveinputgesture$gesture, SplitRatio = 0.70)
-Newnaivetrain = subset(Newnaiveinputgesture, Newsplitgesture == TRUE)
-Newnaivetest = subset(Newnaiveinputgesture, Newsplitgesture == FALSE)
+#Newsplitgesture <- sample.split(Newnaiveinputgesture$gesture, SplitRatio = 0.80)
+
+Newnaivetrain = Newnaiveinputgesture[1:125,]
+Newnaivetest =  Newnaivegesture[126:150,]
 #naivetest = naivegesture[c(1,2), ]
 #Newnaivetrain = Newnaiveinputgesture
 #changing the column names as numeric
@@ -31,6 +40,7 @@ Newnaivetest = subset(Newnaiveinputgesture, Newsplitgesture == FALSE)
 #Applying feature scaling
 Newnaivetrain[-76] = scale(Newnaivetrain[-76])
 Newnaivetest[-76] = scale(Newnaivetest[-76])
+#Newnaivetest[-76] <- data.frame(Newnaivetest[-76])
 
 
 #Applying Dimensionality reduction using PCA to training and test sets 
@@ -61,10 +71,12 @@ New.y_predict = predict(Newclassify, newdata = Newnaivetestpca[-3])
 
 #confusion matrix to calculate accuracy
 
-confusionMatrix(table(Newnaivetestpca[,3], New.y_predict))
+#confusionMatrix(table(Newnaivetestpca[,3], New.y_predict))
 
 
-#write.csv(Output, file = "/home/krdeepakjha/Desktop/Desktop files /combine/Output.csv")
+
+
+
 
 
 
